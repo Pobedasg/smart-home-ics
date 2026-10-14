@@ -1,0 +1,48 @@
+[
+  {
+    "name": "Межа комфорту: 25,5 °C, сухе повітря, люди вдома",
+    "base": "facts.json",
+    "facts": [
+      {"object": "Кімната", "attribute": "температура", "value": 25.5},
+      {"object": "Кімната", "attribute": "вологість", "value": 40},
+      {"object": "Мешканці", "attribute": "є_люди", "value": "так"},
+      {"object": "Мешканці", "attribute": "є_тварини", "value": "ні"}
+    ]
+  },
+  {
+    "name": "Та сама температура 25,5 °C, але вологість 75 %",
+    "base": "facts.json",
+    "facts": [
+      {"object": "Кімната", "attribute": "температура", "value": 25.5},
+      {"object": "Кімната", "attribute": "вологість", "value": 75},
+      {"object": "Мешканці", "attribute": "є_люди", "value": "так"},
+      {"object": "Мешканці", "attribute": "є_тварини", "value": "ні"}
+    ]
+  },
+  {
+    "name": "Невпевнена тривога (CF 0.6), CO2 1300 ppm, люди вдома",
+    "base": "facts.json",
+    "facts": [
+      {"object": "Середовище", "attribute": "обстріл", "value": "так", "cf": 0.6},
+      {"object": "Кімната", "attribute": "рівень_CO2", "value": 1300},
+      {"object": "Мешканці", "attribute": "є_люди", "value": "так"}
+    ]
+  },
+  {
+    "name": "Зима, 17 °C, датчик руху не впевнений (люди, CF 0.6)",
+    "base": "facts.json",
+    "facts": [
+      {"object": "Середовище", "attribute": "пора_року", "value": "зима"},
+      {"object": "Кімната", "attribute": "температура", "value": 17},
+      {"object": "Мешканці", "attribute": "є_люди", "value": "так", "cf": 0.6},
+      {"object": "Мешканці", "attribute": "є_тварини", "value": "ні"}
+    ]
+  },
+  {
+    "name": "Літо, 28 °C, тварини вдома, датчик руху не впевнений (люди, CF 0.6)",
+    "base": "facts.json",
+    "facts": [
+      {"object": "Мешканці", "attribute": "є_люди", "value": "так", "cf": 0.6}
+    ]
+  }
+]

@@ -76,7 +76,7 @@ def show(name, rules, wm, explain=False):
 
 def main():
     if hasattr(sys.stdout, "reconfigure"):
-        sys.stdout.reconfigure(encoding="utf-8")  
+        sys.stdout.reconfigure(encoding="utf-8")   # кирилиця в консолі Windows
 
     p = argparse.ArgumentParser(description="Rule-based система розумного будинку")
     p.add_argument("-s", "--scenario", type=int, help="номер сценарію (з 1)")
@@ -91,6 +91,8 @@ def main():
         scenarios = [{"name": f"Факти з файлу {args.facts}", "facts_file": args.facts}]
     else:
         scenarios = read_json("scenarios.json")
+        if args.scenario is not None and not 1 <= args.scenario <= len(scenarios):
+            p.error(f"немає сценарію {args.scenario}, доступні 1–{len(scenarios)}")
         if args.scenario:
             scenarios = [scenarios[args.scenario - 1]]
 
