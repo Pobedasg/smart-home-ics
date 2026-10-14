@@ -16,7 +16,8 @@ from engine import run as run_crisp
 from fuzzy import FuzzyMemory, load_variables, run, THRESHOLD, ACT_THRESHOLD
 
 DATA = Path(__file__).parent / "data"
-OUTPUTS = ["Режим.назва", "Режим.криза", "Вікна.стан", "Кондиціонер.режим",
+OUTPUTS = ["Мешканці.є_люди", "Охорона.джерело_руху", "Сигналізація.стан",
+           "Режим.назва", "Режим.криза", "Вікна.стан", "Кондиціонер.режим",
            "Обігрівач.стан", "Очищувач.режим", "Тепла_підлога.потужність", "Поїлка.стан"]
 
 
@@ -68,7 +69,7 @@ def show(title, facts, rules, variables, compare=False):
               f"ступінь умови {st.premise:.2f} × вага {st.rule.weight} = CF {st.cf:.2f}")
         for key, old, new, cf, note in st.changes:
             tail = f"  [{note}]" if note else ""
-            print(f"      {key}: {old} → {new} (CF {cf:.2f}){tail}")
+            print(f"      {key}: {'—' if old is None else old} → {new} (CF {cf:.2f}){tail}")
     if weak:
         print("Не пройшли поріг: " + ", ".join(f"{r.id} (CF {cf:.2f})" for r, p, cf in weak))
 

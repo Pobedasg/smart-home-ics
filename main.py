@@ -4,6 +4,7 @@
   python main.py                 – усі сценарії з data/scenarios.json
   python main.py -s 3            – лише сценарій 3
   python main.py -s 3 --explain  – плюс пояснення, чому інші правила не спрацювали
+  python main.py -s 3 --explain R18,R21 – пояснення лише для вказаних правил
   python main.py -f my.json      – власний файл фактів
 """
 import argparse
@@ -15,8 +16,10 @@ from pathlib import Path
 from engine import WorkingMemory, load_rules, run
 
 DATA = Path(__file__).parent / "data"
-DEVICES = ["Режим.назва", "Режим.криза", "Вікна.стан", "Кондиціонер.режим",
+DEVICES = ["Мешканці.є_люди", "Охорона.джерело_руху", "Сигналізація.стан",
+           "Режим.назва", "Режим.криза", "Вікна.стан", "Кондиціонер.режим",
            "Обігрівач.стан", "Очищувач.режим", "Тепла_підлога.потужність", "Поїлка.стан"]
+SHOWN_INPUT = ("Режим.назва", "Вікна.стан")   # стани, які можуть бути вхідними даними
 
 
 def read_json(name):
@@ -38,7 +41,7 @@ def show(name, rules, wm, explain=False):
     print(f"\n{line}\n {name}\n{line}")
     print("Вхідні факти:")
     for k, v in wm.snapshot().items():
-        if k not in DEVICES or k == "Режим.назва":
+        if k not in DEVICES or k in SHOWN_INPUT:
             print(f"  {k} = {v}")
 
     before = wm.snapshot()
@@ -55,22 +58,26 @@ def show(name, rules, wm, explain=False):
         print(textwrap.fill("; ".join(st.reasons), width=78,
                             initial_indent="      бо: ", subsequent_indent="          "))
         for key, old, new in st.changes:
-            print(f"      {key}: {old} → {new}")
+            print(f"      {key}: {'—' if old is None else old} → {new}")
         if not st.changes:
             print("      (факти вже мали ці значення)")
 
     fired = {st.rule.id for st in trace}
     silent = [r for r in rules if r.id not in fired]
-    print("\nНе спрацювали: " + ", ".join(r.id for r in silent))
+    print()
+    print(textwrap.fill("Не спрацювали: " + ", ".join(r.id for r in silent), width=78,
+                        subsequent_indent="  "))
     if explain:
-        for r in silent:
+        wanted = None if explain == "all" else set(explain.upper().split(","))
+        for r in [r for r in silent if wanted is None or r.id in wanted]:
             print(textwrap.fill("; ".join(r.failed(wm)), width=78,
                                 initial_indent=f"  {r.id} «{r.name}»: ", subsequent_indent="      "))
 
     print("\nРезультат (стан системи і пристроїв):")
     for k in DEVICES:
         mark = "  ← змінено" if before.get(k) != wm.get(k) else ""
-        print(f"  {k:26} {wm.get(k)}{mark}")
+        if wm.get(k) is not None:
+            print(f"  {k:26} {wm.get(k)}{mark}")
     return trace
 
 
@@ -81,11 +88,12 @@ def main():
     p = argparse.ArgumentParser(description="Rule-based система розумного будинку")
     p.add_argument("-s", "--scenario", type=int, help="номер сценарію (з 1)")
     p.add_argument("-f", "--facts", help="власний JSON-файл фактів")
-    p.add_argument("--explain", action="store_true", help="пояснити, чому правила не спрацювали")
+    p.add_argument("--explain", nargs="?", const="all", metavar="R18,R21",
+                   help="пояснити, чому правила не спрацювали (усі або вказані)")
     args = p.parse_args()
 
     rules = load_rules(DATA / "rules.json")
-    print(f"Завантажено правил: {len(rules)} ({', '.join(r.id for r in rules)})")
+    print(f"Завантажено правил: {len(rules)} (R1–R{len(rules)})")
 
     if args.facts:
         scenarios = [{"name": f"Факти з файлу {args.facts}", "facts_file": args.facts}]

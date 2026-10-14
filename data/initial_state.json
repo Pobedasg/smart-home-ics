@@ -6,5 +6,7 @@
   {"object": "Обігрівач", "attribute": "стан", "value": "вимкнено"},
   {"object": "Вікна", "attribute": "стан", "value": "закрито"},
   {"object": "Тепла_підлога", "attribute": "потужність", "value": "вимкнено"},
-  {"object": "Поїлка", "attribute": "стан", "value": "вимкнено"}
+  {"object": "Поїлка", "attribute": "стан", "value": "вимкнено"},
+  {"object": "Сигналізація", "attribute": "стан", "value": "вимкнено"},
+  {"object": "Охорона", "attribute": "джерело_руху", "value": "невідомо"}
 ]

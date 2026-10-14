@@ -1,7 +1,9 @@
 [
   {"object": "Кімната", "attribute": "температура", "value": 28},
+  {"object": "Кімната", "attribute": "вологість", "value": 45},
+  {"object": "Картка", "attribute": "вставлена", "value": "ні"},
+  {"object": "Датчик_руху", "attribute": "рух", "value": "так"},
   {"object": "Кімната", "attribute": "рівень_CO2", "value": 600},
-  {"object": "Мешканці", "attribute": "є_люди", "value": "ні"},
   {"object": "Мешканці", "attribute": "є_тварини", "value": "так"},
   {"object": "Мешканці", "attribute": "є_алергік", "value": "ні"},
   {"object": "Середовище", "attribute": "пора_року", "value": "літо"},

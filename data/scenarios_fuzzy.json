@@ -1,11 +1,11 @@
 [
   {
-    "name": "Межа комфорту: 25,5 °C, сухе повітря, люди вдома",
+    "name": "Межа комфорту: 25,5 °C, сухе повітря, мешканець удома",
     "base": "facts.json",
     "facts": [
       {"object": "Кімната", "attribute": "температура", "value": 25.5},
       {"object": "Кімната", "attribute": "вологість", "value": 40},
-      {"object": "Мешканці", "attribute": "є_люди", "value": "так"},
+      {"object": "Картка", "attribute": "вставлена", "value": "так"},
       {"object": "Мешканці", "attribute": "є_тварини", "value": "ні"}
     ]
   },
@@ -15,34 +15,46 @@
     "facts": [
       {"object": "Кімната", "attribute": "температура", "value": 25.5},
       {"object": "Кімната", "attribute": "вологість", "value": 75},
-      {"object": "Мешканці", "attribute": "є_люди", "value": "так"},
+      {"object": "Картка", "attribute": "вставлена", "value": "так"},
       {"object": "Мешканці", "attribute": "є_тварини", "value": "ні"}
     ]
   },
   {
-    "name": "Невпевнена тривога (CF 0.6), CO2 1300 ppm, люди вдома",
+    "name": "Невпевнена тривога (CF 0.6), CO2 1300 ppm, мешканець удома",
     "base": "facts.json",
     "facts": [
       {"object": "Середовище", "attribute": "обстріл", "value": "так", "cf": 0.6},
       {"object": "Кімната", "attribute": "рівень_CO2", "value": 1300},
-      {"object": "Мешканці", "attribute": "є_люди", "value": "так"}
+      {"object": "Картка", "attribute": "вставлена", "value": "так"}
     ]
   },
   {
-    "name": "Зима, 17 °C, датчик руху не впевнений (люди, CF 0.6)",
+    "name": "Зима, 17 °C, мешканець удома",
     "base": "facts.json",
     "facts": [
       {"object": "Середовище", "attribute": "пора_року", "value": "зима"},
       {"object": "Кімната", "attribute": "температура", "value": 17},
-      {"object": "Мешканці", "attribute": "є_люди", "value": "так", "cf": 0.6},
+      {"object": "Картка", "attribute": "вставлена", "value": "так"},
       {"object": "Мешканці", "attribute": "є_тварини", "value": "ні"}
     ]
   },
   {
-    "name": "Літо, 28 °C, тварини вдома, датчик руху не впевнений (люди, CF 0.6)",
+    "name": "Картки немає, тварин немає, вікна закриті, датчик руху не впевнений (CF 0.7)",
     "base": "facts.json",
     "facts": [
-      {"object": "Мешканці", "attribute": "є_люди", "value": "так", "cf": 0.6}
+      {"object": "Кімната", "attribute": "температура", "value": 22},
+      {"object": "Мешканці", "attribute": "є_тварини", "value": "ні"},
+      {"object": "Датчик_руху", "attribute": "рух", "value": "так", "cf": 0.7}
+    ]
+  },
+  {
+    "name": "Те саме, але вікно відкрите",
+    "base": "facts.json",
+    "facts": [
+      {"object": "Кімната", "attribute": "температура", "value": 22},
+      {"object": "Мешканці", "attribute": "є_тварини", "value": "ні"},
+      {"object": "Вікна", "attribute": "стан", "value": "відкрито"},
+      {"object": "Датчик_руху", "attribute": "рух", "value": "так", "cf": 0.7}
     ]
   }
 ]
