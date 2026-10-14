@@ -1,0 +1,10 @@
+[
+  {"object": "Режим", "attribute": "назва", "value": "комфортний"},
+  {"object": "Режим", "attribute": "криза", "value": "ні"},
+  {"object": "Очищувач", "attribute": "режим", "value": "вимкнено"},
+  {"object": "Кондиціонер", "attribute": "режим", "value": "вимкнено"},
+  {"object": "Обігрівач", "attribute": "стан", "value": "вимкнено"},
+  {"object": "Вікна", "attribute": "стан", "value": "закрито"},
+  {"object": "Тепла_підлога", "attribute": "потужність", "value": "вимкнено"},
+  {"object": "Поїлка", "attribute": "стан", "value": "вимкнено"}
+]

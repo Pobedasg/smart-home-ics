@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Приклад з ПР2: літня спека, вдома лише тварини",
+    "facts_file": "facts.json"
+  },
+  {
+    "name": "Блекаут посеред спекотного дня",
+    "base": "facts.json",
+    "facts": [
+      {"object": "Живлення", "attribute": "джерело", "value": "зарядна_станція"},
+      {"object": "Мешканці", "attribute": "є_люди", "value": "так"},
+      {"object": "Кондиціонер", "attribute": "режим", "value": "помірне_охолодження"},
+      {"object": "Поїлка", "attribute": "стан", "value": "увімкнено"},
+      {"object": "Очищувач", "attribute": "режим", "value": "звичайний"}
+    ]
+  },
+  {
+    "name": "Обстріл, люди вдома, високий CO2",
+    "base": "facts.json",
+    "facts": [
+      {"object": "Середовище", "attribute": "обстріл", "value": "так"},
+      {"object": "Мешканці", "attribute": "є_люди", "value": "так"},
+      {"object": "Кімната", "attribute": "рівень_CO2", "value": 1300}
+    ]
+  },
+  {
+    "name": "Мережа повернулась після блекауту, зима, холодно",
+    "base": "facts.json",
+    "facts": [
+      {"object": "Режим", "attribute": "назва", "value": "сон"},
+      {"object": "Середовище", "attribute": "пора_року", "value": "зима"},
+      {"object": "Середовище", "attribute": "опади", "value": "сніг"},
+      {"object": "Кімната", "attribute": "температура", "value": 16},
+      {"object": "Мешканці", "attribute": "є_люди", "value": "так"},
+      {"object": "Мешканці", "attribute": "є_тварини", "value": "ні"}
+    ]
+  }
+]

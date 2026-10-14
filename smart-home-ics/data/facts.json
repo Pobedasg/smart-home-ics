@@ -1,0 +1,12 @@
+[
+  {"object": "Кімната", "attribute": "температура", "value": 28},
+  {"object": "Кімната", "attribute": "рівень_CO2", "value": 600},
+  {"object": "Мешканці", "attribute": "є_люди", "value": "ні"},
+  {"object": "Мешканці", "attribute": "є_тварини", "value": "так"},
+  {"object": "Мешканці", "attribute": "є_алергік", "value": "ні"},
+  {"object": "Середовище", "attribute": "пора_року", "value": "літо"},
+  {"object": "Середовище", "attribute": "опади", "value": "немає"},
+  {"object": "Середовище", "attribute": "індекс_забруднення", "value": 40},
+  {"object": "Середовище", "attribute": "обстріл", "value": "ні"},
+  {"object": "Живлення", "attribute": "джерело", "value": "мережа"}
+]
