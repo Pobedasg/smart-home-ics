@@ -51,6 +51,18 @@ python lr2.py -s 2 --compare   # порівняння з чіткою систе
 
 На macOS замість `python` пишіть `python3`.
 
+### Графік функцій належності
+
+Для `plot_terms.py` потрібен matplotlib. Графік зберігається в `reports/terms.png`.
+
+```
+pip install matplotlib
+python3 plot_terms.py
+```
+
+На macOS, якщо matplotlib встановлено у віртуальне середовище, спершу активуйте його:
+`source .venv/bin/activate`
+
 ## Етапи
 
 - [x] ЛР1. Rule-based система
