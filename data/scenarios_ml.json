@@ -1,0 +1,65 @@
+[
+  {
+    "name": "Ранок, 25,5 °C і теплішає, вологість 60 %, мешканець удома",
+    "base": "facts.json",
+    "facts": [
+      {"object": "Кімната", "attribute": "температура", "value": 25.5},
+      {"object": "Кімната", "attribute": "вологість", "value": 60},
+      {"object": "Картка", "attribute": "вставлена", "value": "так"},
+      {"object": "Мешканці", "attribute": "є_тварини", "value": "ні"},
+      {"object": "Час", "attribute": "година", "value": 11},
+      {"object": "Кімната", "attribute": "зміна_температури", "value": 0.4},
+      {"object": "Середовище", "attribute": "температура_надворі", "value": 31}
+    ]
+  },
+  {
+    "name": "Та сама кімната, але вечір: холоднішає, надворі 22 °C",
+    "base": "facts.json",
+    "facts": [
+      {"object": "Кімната", "attribute": "температура", "value": 25.5},
+      {"object": "Кімната", "attribute": "вологість", "value": 60},
+      {"object": "Картка", "attribute": "вставлена", "value": "так"},
+      {"object": "Мешканці", "attribute": "є_тварини", "value": "ні"},
+      {"object": "Час", "attribute": "година", "value": 21},
+      {"object": "Кімната", "attribute": "зміна_температури", "value": -0.3},
+      {"object": "Середовище", "attribute": "температура_надворі", "value": 22}
+    ]
+  },
+  {
+    "name": "Ранок, 25,5 °C, сухе повітря: правила мовчать",
+    "base": "facts.json",
+    "facts": [
+      {"object": "Кімната", "attribute": "температура", "value": 25.5},
+      {"object": "Кімната", "attribute": "вологість", "value": 40},
+      {"object": "Картка", "attribute": "вставлена", "value": "так"},
+      {"object": "Мешканці", "attribute": "є_тварини", "value": "ні"},
+      {"object": "Час", "attribute": "година", "value": 11},
+      {"object": "Кімната", "attribute": "зміна_температури", "value": 0.4},
+      {"object": "Середовище", "attribute": "температура_надворі", "value": 31}
+    ]
+  },
+  {
+    "name": "Обід, удома лише тварини, 25,5 °C і теплішає",
+    "base": "facts.json",
+    "facts": [
+      {"object": "Кімната", "attribute": "температура", "value": 25.5},
+      {"object": "Час", "attribute": "година", "value": 13},
+      {"object": "Кімната", "attribute": "зміна_температури", "value": 0.3},
+      {"object": "Середовище", "attribute": "температура_надворі", "value": 30}
+    ]
+  },
+  {
+    "name": "Обстріл: модель прогнозує перегрів, але безпека важливіша",
+    "base": "facts.json",
+    "facts": [
+      {"object": "Середовище", "attribute": "обстріл", "value": "так"},
+      {"object": "Кімната", "attribute": "температура", "value": 25.5},
+      {"object": "Кімната", "attribute": "вологість", "value": 60},
+      {"object": "Картка", "attribute": "вставлена", "value": "так"},
+      {"object": "Мешканці", "attribute": "є_тварини", "value": "ні"},
+      {"object": "Час", "attribute": "година", "value": 11},
+      {"object": "Кімната", "attribute": "зміна_температури", "value": 0.4},
+      {"object": "Середовище", "attribute": "температура_надворі", "value": 31}
+    ]
+  }
+]

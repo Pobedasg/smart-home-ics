@@ -1,0 +1,24 @@
+{
+  "model": "RandomForestClassifier (100 дерев, глибина до 8)",
+  "features": [
+    "hour",
+    "temp_now",
+    "temp_trend",
+    "temp_outdoor"
+  ],
+  "train_size": 45120,
+  "test_size": 11280,
+  "accuracy": 0.99,
+  "f1": 0.977,
+  "roc_auc": 1.0,
+  "baseline_accuracy": 0.982,
+  "baseline_f1": 0.956,
+  "not_hot_yet_f1": 0.763,
+  "not_hot_yet_baseline_f1": 0.0,
+  "feature_importance": {
+    "hour": 0.047,
+    "temp_now": 0.804,
+    "temp_trend": 0.003,
+    "temp_outdoor": 0.146
+  }
+}
