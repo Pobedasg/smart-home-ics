@@ -11,6 +11,7 @@
 """
 import argparse
 import json
+import logging
 import sys
 from pathlib import Path
 
@@ -18,6 +19,7 @@ from engine import load_rules
 from fuzzy import FuzzyMemory, load_variables, run, ACT_THRESHOLD
 from hybrid import DEFAULT_URL, features_from, predict_overheat, prediction_fact
 from lr2 import OUTPUTS, read_json, scenario_facts
+from ics_logging import setup_logging
 
 DATA = Path(__file__).parent / "data"
 
@@ -48,6 +50,7 @@ def verdict(concluded, key):
 def show(title, facts, rules, variables, url):
     line = "═" * 72
     print(f"\n{line}\n {title}\n{line}")
+    logging.getLogger("ics").info("=== %s", title)
 
     mem = FuzzyMemory()
     mem.load(facts)
@@ -93,11 +96,14 @@ def main():
     p = argparse.ArgumentParser(description="Гібридна ІКС: правила + ML через REST API (ЛР3)")
     p.add_argument("-s", "--scenario", type=int, help="номер сценарію (з 1)")
     p.add_argument("--url", default=DEFAULT_URL, help=f"адреса ML-сервісу (за замовчуванням {DEFAULT_URL})")
+    p.add_argument("--log-level", default="INFO", choices=["DEBUG", "INFO", "WARNING"],
+                   help="докладність журналу logs/ics.log")
     args = p.parse_args()
+    setup_logging(args.log_level)
 
     rules = load_all_rules()
     variables = load_variables(DATA / "fuzzy_vars.json")
-    print(f"Завантажено правил: {len(rules)} (R1–R24 з ЛР2 + R25 для прогнозу), ML-сервіс: {args.url}")
+    print(f"Завантажено правил: {len(rules)} (R1–R24, R26–R28 з ПР4 + R25 для прогнозу), ML-сервіс: {args.url}")
 
     scenarios = read_json("scenarios_ml.json")
     if args.scenario is not None and not 1 <= args.scenario <= len(scenarios):

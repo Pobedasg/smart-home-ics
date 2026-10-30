@@ -8,12 +8,14 @@
 """
 import argparse
 import json
+import logging
 import sys
 from pathlib import Path
 
 from engine import WorkingMemory, load_rules
 from engine import run as run_crisp
 from fuzzy import FuzzyMemory, load_variables, run, THRESHOLD, ACT_THRESHOLD
+from ics_logging import setup_logging
 
 DATA = Path(__file__).parent / "data"
 OUTPUTS = ["Мешканці.є_люди", "Охорона.джерело_руху", "Сигналізація.стан",
@@ -44,6 +46,7 @@ def crisp_result(facts):
 def show(title, facts, rules, variables, compare=False):
     line = "═" * 72
     print(f"\n{line}\n {title}\n{line}")
+    logging.getLogger("ics").info("=== %s", title)
     mem = FuzzyMemory()
     mem.load(facts)
 
@@ -100,7 +103,10 @@ def main():
     p.add_argument("-s", "--scenario", type=int, help="номер сценарію (з 1)")
     p.add_argument("-f", "--facts", help="власний JSON-файл фактів")
     p.add_argument("--compare", action="store_true", help="порівняти з чіткою системою ЛР1")
+    p.add_argument("--log-level", default="INFO", choices=["DEBUG", "INFO", "WARNING"],
+                   help="докладність журналу logs/ics.log")
     args = p.parse_args()
+    setup_logging(args.log_level)
 
     rules = load_rules(DATA / "rules_fuzzy.json")
     variables = load_variables(DATA / "fuzzy_vars.json")

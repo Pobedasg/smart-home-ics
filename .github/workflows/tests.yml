@@ -1,0 +1,27 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Встановити бібліотеки
+        run: pip install -r requirements.txt
+      - name: Навчити модель для ML-сервісу
+        run: |
+          python ml_service/generate_data.py
+          python ml_service/train.py
+      - name: Тести і покриття
+        run: pytest --cov --cov-report=term-missing --cov-report=html
+      - name: Зберегти звіт про покриття
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-html
+          path: htmlcov/

@@ -5,9 +5,11 @@
 і система працює на самих правилах, як у ЛР2.
 """
 import json
+import logging
 from urllib import error, request
 
 DEFAULT_URL = "http://127.0.0.1:8000"
+log = logging.getLogger("ics.ml")
 
 # які факти робочої пам'яті передаються моделі як ознаки
 FEATURE_FACTS = {
@@ -30,16 +32,21 @@ def predict_overheat(features, url=DEFAULT_URL, timeout=2.0):
     body = json.dumps(features).encode("utf-8")
     req = request.Request(f"{url}/predict", data=body, method="POST",
                           headers={"Content-Type": "application/json"})
+    log.info("Запит POST %s/predict %s", url, features)
     try:
         with request.urlopen(req, timeout=timeout) as resp:
             answer = json.loads(resp.read().decode("utf-8"))
-        return float(answer["overheat_probability"]), None
+        p = float(answer["overheat_probability"])
+        log.info("Відповідь сервісу: ймовірність перегріву %.2f", p)
+        return p, None
     except error.HTTPError as e:
-        return None, f"сервіс відповів помилкою {e.code}: {e.read().decode('utf-8', 'replace')}"
+        msg = f"сервіс відповів помилкою {e.code}: {e.read().decode('utf-8', 'replace')}"
     except (error.URLError, TimeoutError, OSError) as e:
-        return None, f"сервіс недоступний ({getattr(e, 'reason', e)})"
+        msg = f"сервіс недоступний ({getattr(e, 'reason', e)})"
     except (KeyError, ValueError) as e:
-        return None, f"незрозуміла відповідь сервісу ({e})"
+        msg = f"незрозуміла відповідь сервісу ({e})"
+    log.warning("ML-сервіс: %s, рішення лише за правилами", msg)
+    return None, msg
 
 
 def prediction_fact(p):

@@ -9,11 +9,13 @@
 """
 import argparse
 import json
+import logging
 import sys
 import textwrap
 from pathlib import Path
 
 from engine import WorkingMemory, load_rules, run
+from ics_logging import setup_logging
 
 DATA = Path(__file__).parent / "data"
 DEVICES = ["Мешканці.є_люди", "Охорона.джерело_руху", "Сигналізація.стан",
@@ -39,6 +41,7 @@ def build_memory(scenario):
 def show(name, rules, wm, explain=False):
     line = "═" * 70
     print(f"\n{line}\n {name}\n{line}")
+    logging.getLogger("ics").info("=== %s", name)
     print("Вхідні факти:")
     for k, v in wm.snapshot().items():
         if k not in DEVICES or k in SHOWN_INPUT:
@@ -90,7 +93,10 @@ def main():
     p.add_argument("-f", "--facts", help="власний JSON-файл фактів")
     p.add_argument("--explain", nargs="?", const="all", metavar="R18,R21",
                    help="пояснити, чому правила не спрацювали (усі або вказані)")
+    p.add_argument("--log-level", default="INFO", choices=["DEBUG", "INFO", "WARNING"],
+                   help="докладність журналу logs/ics.log")
     args = p.parse_args()
+    setup_logging(args.log_level)
 
     rules = load_rules(DATA / "rules.json")
     print(f"Завантажено правил: {len(rules)} (R1–R{len(rules)})")

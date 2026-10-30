@@ -9,6 +9,7 @@
   * однакові висновки від різних правил підсилюють один одного (combine),
     а суперечливі (вікна відкрити / закрити) – перемагає більший CF.
 """
+import logging
 from dataclasses import dataclass, field
 
 from engine.rules import OPERATORS
@@ -17,6 +18,7 @@ from .certainty import AND, OR, NOT, conclusion_cf, combine
 THRESHOLD = 0.2         # нижче – правило не спрацьовує
 ACT_THRESHOLD = 0.5     # від цього CF система діє сама, нижче – лише пропонує
 BOOL = ("так", "ні")
+log = logging.getLogger("ics.fuzzy")
 
 
 def degree(cond, mem, variables):
@@ -53,6 +55,7 @@ class Step:
 def run(rules, mem, variables, threshold=THRESHOLD, max_cycles=50):
     fired, trace = set(), []
     concluded = {}            # ключ -> (значення, cf), висновки цього запуску
+    log.info("Старт нечіткого виведення: правил %d, поріг %.2f", len(rules), threshold)
     for cycle in range(1, max_cycles + 1):
         agenda = []
         for r in rules:
@@ -67,6 +70,8 @@ def run(rules, mem, variables, threshold=THRESHOLD, max_cycles=50):
         rule, p = agenda[0]
         cf = round(conclusion_cf(p, rule.weight), 2)
         step = Step(cycle, rule, round(p, 2), cf)
+        log.info("Цикл %d: %s «%s» ступінь %.2f × вага %s = CF %.2f",
+                 cycle, rule.id, rule.name, p, rule.weight, cf)
         for act in rule.actions:
             if "if" in act and degree(act["if"], mem, variables) < 0.5:
                 continue
@@ -89,6 +94,8 @@ def run(rules, mem, variables, threshold=THRESHOLD, max_cycles=50):
                 concluded[key] = (new, cf)
                 mem.set(key, new, cf)
                 step.changes.append((key, old, new, cf, ""))
+        for key, old, new, value_cf, note in step.changes:
+            log.info("  %s: %s → %s (CF %.2f)%s", key, "—" if old is None else old, new, value_cf, f" [{note}]" if note else "")
         fired.add(rule.id)
         trace.append(step)
 
@@ -98,4 +105,9 @@ def run(rules, mem, variables, threshold=THRESHOLD, max_cycles=50):
             p = degree(r.condition, mem, variables)
             if p > 0:
                 weak.append((r, round(p, 2), round(conclusion_cf(p, r.weight), 2)))
+    for r, p, c in weak:
+        log.debug("Не пройшло поріг: %s (CF %.2f)", r.id, c)
+    for key, (value, c) in concluded.items():
+        how = "виконати" if c >= ACT_THRESHOLD else "запропонувати"
+        log.info("Рішення: %s = %s, CF %.2f → %s", key, value, c, how)
     return trace, weak, concluded

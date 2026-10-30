@@ -1,0 +1,12 @@
+[run]
+source = .
+omit =
+    tests/*
+    .venv/*
+    ml_service/generate_data.py
+    ml_service/train.py
+    plot_terms.py
+
+[report]
+show_missing = True
+skip_empty = True

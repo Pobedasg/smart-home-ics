@@ -13,6 +13,7 @@
        {"overheat_probability": 0.7, "horizon_min": 30, "threshold_c": 26}
 """
 import json
+import logging
 from pathlib import Path
 
 import joblib
@@ -22,6 +23,7 @@ HERE = Path(__file__).parent
 PORT = 8000            # 5000 на macOS зайнятий AirPlay, тому 8000
 
 app = Flask(__name__)
+log = logging.getLogger("ics.service")
 app.json.ensure_ascii = False
 
 model = joblib.load(HERE / "models" / "overheat_model.joblib")
@@ -57,11 +59,17 @@ def predict():
     data = request.get_json(silent=True)
     error = validate(data)
     if error:
+        log.warning("Відхилено запит %s: %s", data, error)
         return jsonify(error=error), 400
     x = [[float(data[k]) for k in metrics["features"]]]
     p = float(model.predict_proba(x)[0][1])
+    log.info("Прогноз для %s: %.2f", data, p)
     return jsonify(overheat_probability=round(p, 2), horizon_min=30, threshold_c=26)
 
 
 if __name__ == "__main__":
+    import sys
+    sys.path.insert(0, str(HERE.parent))
+    from ics_logging import setup_logging
+    setup_logging(path=HERE.parent / "logs" / "ml_service.log")
     app.run(host="127.0.0.1", port=PORT)
